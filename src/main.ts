@@ -12,7 +12,9 @@ async function start() {
     exposedHeaders: ["Content-Disposition"],
   });
 
-  await app.listen(PORT, () => console.log(`Server started on port = ${PORT}`));
+  await app.listen(PORT, () =>
+    console.log(`Server started on portt = ${PORT}`)
+  );
 }
 
 start();

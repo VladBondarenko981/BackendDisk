@@ -21,6 +21,7 @@ import { File } from "./files/files.model";
       database: process.env.POSTGRES_DB,
       models: [File, User],
       autoLoadModels: true,
+      logging: false,
     }),
     AuthModule,
     UsersModule,

@@ -26,7 +26,7 @@ export class AuthService {
     const candidate = await this.userService.getUserByEmail(userDto.email);
     if (candidate) {
       throw new HttpException(
-        "Пользователь с таким email существует",
+        "A user with this email exists",
         HttpStatus.BAD_REQUEST
       );
     }
@@ -60,7 +60,7 @@ export class AuthService {
       return user;
     }
     throw new UnauthorizedException({
-      message: "Неккоретній эмейил или пароль",
+      message: "Incorrect email or password",
     });
   }
 }

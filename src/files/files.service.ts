@@ -32,10 +32,9 @@ export class FileService {
       where: { filename, userId },
     });
     if (!file) {
-      throw new NotFoundException("Файл не найден");
+      throw new NotFoundException("File not found");
     }
-    const filePath = join(process.cwd(), file.filepath); // Путь из базы данных
-    // Проверяем, существует ли файл на диске
+    const filePath = join(process.cwd(), file.filepath);
     if (!existsSync(filePath)) {
       throw new Error("File not found on disk");
     }
@@ -52,14 +51,10 @@ export class FileService {
       `${disposition}; filename*=UTF-8''${encodedName}`
     );
 
-    // Передаём поток данных клиенту
     const fileStream = createReadStream(filePath);
-    const fileStats = statSync(filePath); // Получаем размер файла для Content-Length
+    const fileStats = statSync(filePath);
     res.setHeader("Content-Length", fileStats.size.toString());
     fileStream.pipe(res);
-    console.log("MIME type:", file.mimetype);
-    console.log("File path:", filePath);
-    console.log("File disposition:", disposition);
   }
 
   async setFavToFile(
@@ -67,16 +62,15 @@ export class FileService {
     favOption: boolean,
     userId: string
   ): Promise<void> {
-    console.log(filename);
     const file = await this.fileRepository.findOne({
       where: { filename, userId },
     });
     if (!file) {
-      throw new NotFoundException("Файл не найден");
+      throw new NotFoundException("File not found");
     }
-    console.log(file);
+
     file.favFile = favOption;
-    console.log(file);
+
     await file.save();
   }
 
@@ -85,7 +79,7 @@ export class FileService {
       where: { filename, userId },
     });
     if (!file) {
-      throw new NotFoundException("Файл не найден");
+      throw new NotFoundException("File not found");
     }
     file.originalname = newName;
     file.filename = `${Date.now()}-${file.originalname}`;
@@ -97,7 +91,7 @@ export class FileService {
       where: { filename, userId },
     });
     if (!file) {
-      throw new NotFoundException("Файл не найден");
+      throw new NotFoundException("File not found");
     }
     file.isDeleted = true;
     file.deletedAt = new Date();
@@ -105,22 +99,19 @@ export class FileService {
   }
 
   async cleanTrashFiles() {
-    console.log("Очистка файлов из корзины...");
     const trashFiles = await this.fileRepository.findAll({
       where: { isDeleted: true },
     });
     if (!trashFiles) {
-      throw new NotFoundException("Файлы не найдены");
+      throw new NotFoundException("Files not found");
     }
     const currentDate = new Date();
 
     for (const file of trashFiles) {
-      // Проверяем, прошло ли 7 дней с момента добавления файла в корзину
       const deletedAt = new Date(file.deletedAt);
       const differenceInTime = currentDate.getTime() - deletedAt.getTime();
-      const differenceInDays = differenceInTime / (1000 * 3600 * 24); // Получаем разницу в днях
+      const differenceInDays = differenceInTime / (1000 * 3600 * 24);
 
-      // Если прошло 7 или больше дней, удаляем файл
       if (differenceInDays >= 7) {
         await file.destroy();
       }

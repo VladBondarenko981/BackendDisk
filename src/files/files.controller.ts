@@ -60,7 +60,6 @@ export class FileController {
     @Query("action") action: string,
     @Res() res: Response
   ) {
-    console.log("Action:", action);
     return this.fileService.downloadNeedFile(
       filename,
       req.user.id,
@@ -92,7 +91,7 @@ export class FileController {
       newName: body.newName,
       action: "rename",
     });
-    return { message: "Файл переименован" };
+    return { message: "File renamed" };
   }
 
   @UseGuards(JwtAuthGuard)
@@ -104,6 +103,6 @@ export class FileController {
       filename: body.filename,
       action: "deleted",
     });
-    return { message: "Файл перемещен в корзину" };
+    return { message: "File moved to trash" };
   }
 }

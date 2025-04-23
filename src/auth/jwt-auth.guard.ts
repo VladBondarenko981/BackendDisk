@@ -18,7 +18,7 @@ export class JwtAuthGuard implements CanActivate {
       const authHeader = req.headers.authorization;
       if (!authHeader) {
         throw new UnauthorizedException({
-          message: "Авторизационный заголовок отсутствует",
+          message: "Authorization header is missing",
         });
       }
       const bearer = authHeader.split(" ")[0];
@@ -26,7 +26,7 @@ export class JwtAuthGuard implements CanActivate {
 
       if (bearer !== "Bearer" || !token) {
         throw new UnauthorizedException({
-          message: "Неверный формат токена",
+          message: "Invalid token format",
         });
       }
       const user = this.jwtService.verify(token, {
@@ -35,9 +35,9 @@ export class JwtAuthGuard implements CanActivate {
       req.user = user;
       return true;
     } catch (e) {
-      console.error("Ошибка верификации токена:", e);
+      console.error("Token verification error:", e);
       throw new UnauthorizedException({
-        message: "Неверный токен",
+        message: "Invalid token",
       });
     }
   }

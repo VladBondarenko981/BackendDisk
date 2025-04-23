@@ -7,7 +7,7 @@ import {
 } from "@nestjs/websockets";
 import { Server, Socket } from "socket.io";
 
-@WebSocketGateway({ cors: { origin: "*" } }) // Разрешаем CORS для фронтенда
+@WebSocketGateway({ cors: { origin: "*" } })
 export class FileGateway {
   @WebSocketServer()
   server: Server;
@@ -17,7 +17,6 @@ export class FileGateway {
     @MessageBody() data: File,
     @ConnectedSocket() client: Socket
   ): void {
-    console.log("File update received:", data);
-    this.server.emit("filesUpdated", data); // Отправляем обновление всем клиентам
+    this.server.emit("filesUpdated", data);
   }
 }

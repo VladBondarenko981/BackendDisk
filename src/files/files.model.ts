@@ -23,7 +23,7 @@ interface FileCreationAttrs {
 
 @Table({ tableName: "files" })
 export class File extends Model<File, FileCreationAttrs> {
-  @ApiProperty({ example: "1", description: "Уникальный идентификатор файла" })
+  @ApiProperty({ example: "1", description: "Unique file identifier" })
   @Column({
     type: DataType.INTEGER,
     unique: true,
@@ -34,7 +34,7 @@ export class File extends Model<File, FileCreationAttrs> {
 
   @ApiProperty({
     example: "1",
-    description: "ID пользователя, к которому привязан файл",
+    description: "The ID of the user to which the file is linked",
   })
   @ForeignKey(() => User)
   @Column({
@@ -45,7 +45,7 @@ export class File extends Model<File, FileCreationAttrs> {
 
   @ApiProperty({
     example: "1672851234567-document.pdf",
-    description: "Имя файла на сервере",
+    description: "File name on server",
   })
   @Column({
     type: DataType.STRING,
@@ -55,7 +55,7 @@ export class File extends Model<File, FileCreationAttrs> {
 
   @ApiProperty({
     example: "document.pdf",
-    description: "Оригинальное имя файла",
+    description: "Original file name",
   })
   @Column({
     type: DataType.STRING,
@@ -65,7 +65,7 @@ export class File extends Model<File, FileCreationAttrs> {
 
   @ApiProperty({
     example: "uploads/1672851234567-document.pdf",
-    description: "Путь к файлу на сервере",
+    description: "Path to file on server",
   })
   @Column({
     type: DataType.STRING,
@@ -73,28 +73,28 @@ export class File extends Model<File, FileCreationAttrs> {
   })
   filepath: string;
 
-  @ApiProperty({ example: 1048576, description: "Размер файла в байтах" })
+  @ApiProperty({ example: 1048576, description: "File size in bytes" })
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
   size: number;
 
-  @ApiProperty({ example: "application/pdf", description: "MIME-тип файла" })
+  @ApiProperty({ example: "application/pdf", description: "MIME file type" })
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
   mimetype: string;
 
-  @ApiProperty({ example: "FALSE", description: "Избранный файл или нет" })
+  @ApiProperty({ example: "FALSE", description: "Featured file or not" })
   @Column({
     type: DataType.BOOLEAN,
     allowNull: false,
   })
   favFile: boolean;
 
-  @ApiProperty({ example: "FALSE", description: "Удален файл или нет" })
+  @ApiProperty({ example: "FALSE", description: "File deleted or not" })
   @Column({
     type: DataType.BOOLEAN,
     allowNull: false,
@@ -104,7 +104,7 @@ export class File extends Model<File, FileCreationAttrs> {
 
   @ApiProperty({
     example: "13-02-2003",
-    description: "Время когда мы удалили файл",
+    description: "The time we deleted the file",
   })
   @Column({
     type: DataType.DATE,
